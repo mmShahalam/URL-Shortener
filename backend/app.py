@@ -2,9 +2,11 @@ from flask import Flask, request, jsonify
 import firebase_admin
 from firebase_admin import credentials, firestore
 import os
+from flask_cors import CORS
 
 # Initialize Flask app
 app = Flask(__name__)
+CORS(app)
 
 # Load Firebase credentials from .env file
 from dotenv import load_dotenv
@@ -24,7 +26,7 @@ db = firestore.client()
 @app.route('/shorten', methods=['POST'])
 def shorten_url():
     data = request.json
-    original_url = data.get('original_url')
+    original_url = data.get('long_url')
     custom_alias = data.get('custom_alias', None)
 
     if not original_url:
